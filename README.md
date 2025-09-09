@@ -142,14 +142,14 @@ python make_synthetic_positive_SCA.py
 
 **Output Directory:** `./synthetic_positive_SCA/`
 
-## ACA/SCA Logistic Regression Training
+## ACA/SCA Logistic Regression Training (English)
 
-This section summarizes the ACA (Trisomy 13/18/21) and SCA (sex chromosome aneuploidies) Logistic Regression pipelines.
+This section summarizes the ACA (Trisomy 13/18/21) and SCA (sex chromosome aneuploidies) Logistic Regression pipelines described in paper_english.pdf and implemented in this repository.
 
 ### Pipeline Overview
 - ACA
   - Load ACA/normal datasets and merge male/female cohorts
-  - Normalize chromosome read counts to 3M per sample - ATRC(UR) based)
+  - Build features including chrN_count_3m (3M normalization handled automatically in code)
   - Build features: GC (scaled ×100), snp_FF, chrN_count_3m
   - Standardize features using training statistics only
   - Train Logistic Regression (class_weight='balanced', C=100)
@@ -162,16 +162,15 @@ This section summarizes the ACA (Trisomy 13/18/21) and SCA (sex chromosome aneup
   - Report macro metrics (accuracy/precision/recall) and confusion matrix
   - Save model/scaler artifacts
 
-### Important: Input Data Must Come From the Synthetic Data Generation Process
 - Both training and testing CSV inputs must be produced by this project’s synthetic data generation pipeline and then preprocessed before use.
 - Required schemas:
   - ACA
     - Positive (ACA) CSV: `sample_id, result, GC, snp_FF, T13_UR, T18_UR, T21_UR, T13_RC, T18_RC, T21_RC`
     - Normal CSV: `sample_id, result, GC, snp_FF, ATRC, chr13_count, chr18_count, chr21_count`
-    - The training pipeline renames `T{N}_RC → chr{N}_count` and performs 3M normalization using `T{N}_UR` (ACA) and `ATRC` (normal). `GC` is scaled by ×100.
+    - The training pipeline automatically renames `T{N}_RC → chr{N}_count` and computes 3M-normalized counts; ensure the required columns exist. `GC` scaling (×100) is also handled in code.
   - SCA
     - CSV: `result, GC, UR, snp_FF, chr23_count, chr24_count`
-    - Labels `M/F` are normalized to `XY/XX`. `GC` is scaled by ×100.
+    - Labels `M/F` are normalized to `XY/XX`. `GC` scaling (×100) is handled in code.
 
 > Note: Do not feed raw synthetic outputs directly. Ensure columns and 3M normalization align with the schema above prior to training/testing.
 
