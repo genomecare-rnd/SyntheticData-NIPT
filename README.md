@@ -119,9 +119,7 @@ Generates synthetic Sex Chromosome Aneuploidy data implementing four SCA equatio
 
 **Regression Models:**
 - **Misaligned Y Reads (XO, XYY)**: `Cy_RC = β0 + β1 · TRC(UR) + ε` (Equation 3.1)
-  - **Coefficients**: β0 = 8.73854394, β1 = 3.76076E-05, σ = 14
-- **XXY Y Chromosome Reads**: `Y_count = 0.000183 · TRC(UR) + 72.46617 · FF - 575.88`
-  - **Standard deviation**: σ = 82 (>95% correlation with UR and FF)
+- **XXY Y Chromosome Reads**: `CY_RC = β0 + β1 · TRC(UR) + β2 · FF + ε` (Equation 5.1)
 
 **Key Features:**
 - **Dynamic Y Reference**: Uses last sample in combination as Y chromosome reference
