@@ -142,9 +142,9 @@ python make_synthetic_positive_SCA.py
 
 **Output Directory:** `./synthetic_positive_SCA/`
 
-## ACA/SCA Logistic Regression Training (English)
+## ACA/SCA Logistic Regression Training
 
-This section summarizes the ACA (Trisomy 13/18/21) and SCA (sex chromosome aneuploidies) Logistic Regression pipelines described in paper_english.pdf and implemented in this repository.
+This section summarizes the ACA (Trisomy 13/18/21) and SCA (sex chromosome aneuploidies) Logistic Regression pipelines.
 
 ### Pipeline Overview
 - ACA
