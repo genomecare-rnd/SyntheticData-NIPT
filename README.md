@@ -142,11 +142,6 @@ python make_synthetic_positive_SCA.py
 
 **Output Directory:** `./synthetic_positive_SCA/`
 
-## Contact
-
-For questions or technical support regarding this implementation, please contact: **hch8357@naver.com**
-
-
 ## ACA/SCA Logistic Regression Training (English)
 
 This section summarizes the ACA (Trisomy 13/18/21) and SCA (sex chromosome aneuploidies) Logistic Regression pipelines described in paper_english.pdf and implemented in this repository.
@@ -207,3 +202,7 @@ python train_SCA_LR_model.py
 ### Outputs
 - Joblib artifacts for models and scalers
 - Console confusion matrices and key metrics (ACA: ROC/Youden’s J-based; SCA: multiclass macro metrics)
+
+## Contact
+
+For questions or technical support regarding this implementation, please contact: **hch8357@naver.com**
