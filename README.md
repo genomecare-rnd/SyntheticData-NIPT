@@ -149,7 +149,7 @@ This section summarizes the ACA (Trisomy 13/18/21) and SCA (sex chromosome aneup
 ### Pipeline Overview
 - ACA
   - Load ACA/normal datasets and merge male/female cohorts
-  - Normalize chromosome read counts to 3M per sample (UR/ATRC based)
+  - Normalize chromosome read counts to 3M per sample - ATRC(UR) based)
   - Build features: GC (scaled ×100), snp_FF, chrN_count_3m
   - Standardize features using training statistics only
   - Train Logistic Regression (class_weight='balanced', C=100)
