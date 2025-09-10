@@ -1,7 +1,7 @@
 # Synthetic Data Generation for Fetal Chromosomal Aneuploidy Detection
 
 ## Introduction
-This repository implements the synthetic data generation methodology described in *"Synthetic data-driven AI approach for fetal chromosomal aneuploidies detection"* (TBA).
+This repository implements the synthetic data generation process described in *"Synthetic data-driven AI approach for fetal chromosomal aneuploidies detection"* (TBA).
 
 The methodology addresses the critical limitation of scarce positive samples in Non-Invasive Prenatal Testing (NIPT) by generating virtually unlimited synthetic datasets with over 99.9% similarity to real-world data. This enables accurate detection of both Autosomal Chromosome Aneuploidies (ACA) and Sex Chromosome Aneuploidies (SCA).
 
@@ -119,7 +119,9 @@ Generates synthetic Sex Chromosome Aneuploidy data implementing four SCA equatio
 
 **Regression Models:**
 - **Misaligned Y Reads (XO, XYY)**: `Cy_RC = β0 + β1 · TRC(UR) + ε` (Equation 3.1)
-- **XXY Y Chromosome Reads**: `CY_RC = β0 + β1 · TRC(UR) + β2 · FF + ε` (Equation 5.1)
+  - **Coefficients**: β0 = 8.73854394, β1 = 3.76076E-05, σ = 14
+- **XXY Y Chromosome Reads**: `Y_count = 0.000183 · TRC(UR) + 72.46617 · FF - 575.88`
+  - **Standard deviation**: σ = 82 (>95% correlation with UR and FF)
 
 **Key Features:**
 - **Dynamic Y Reference**: Uses last sample in combination as Y chromosome reference
@@ -161,7 +163,7 @@ This section summarizes the ACA (Trisomy 13/18/21) and SCA (sex chromosome aneup
   - Save model/scaler artifacts
 
 - Both training and testing CSV inputs must be produced by this project’s synthetic data generation pipeline and then preprocessed before use.
-- Required schemas:
+- Required feature columns:
   - ACA
     - Positive (ACA) CSV: `sample_id, result, GC, snp_FF, T13_UR, T18_UR, T21_UR, T13_RC, T18_RC, T21_RC`
     - Normal CSV: `sample_id, result, GC, snp_FF, ATRC, chr13_count, chr18_count, chr21_count`
@@ -170,7 +172,7 @@ This section summarizes the ACA (Trisomy 13/18/21) and SCA (sex chromosome aneup
     - CSV: `result, GC, UR, snp_FF, chr23_count, chr24_count`
     - Labels `M/F` are normalized to `XY/XX`. `GC` scaling (×100) is handled in code.
 
-> Note: Do not feed raw synthetic outputs directly. Ensure columns and 3M normalization align with the schema above prior to training/testing.
+> Note: Do not feed raw synthetic outputs directly. Ensure columns and 3M normalization align with the feature columns above prior to training/testing.
 
 ### Scripts
 - `train_ACA_LR_model.py`
