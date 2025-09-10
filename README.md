@@ -124,7 +124,6 @@ Generates synthetic Sex Chromosome Aneuploidy data implementing four SCA equatio
   - **Standard deviation**: σ = 82 (>95% correlation with UR and FF)
 
 **Key Features:**
-- **Dynamic Y Reference**: Uses last sample in combination as Y chromosome reference
 - **Four SCA Types**: XO, XYY, XXY, XXX conditions
 - **Regression Integration**: Models misaligned Y chromosome reads
 - **Self-Contained**: No external Y reference file dependencies

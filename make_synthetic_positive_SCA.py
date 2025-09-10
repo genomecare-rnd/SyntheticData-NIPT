@@ -122,8 +122,12 @@ def make_combined_SCA(fastq_dfs, filenames, sca_type):
     ref_sample_df = fastq_dfs[ref_sample]['DATA']
     
     # Extract Y and X chromosome reads from reference sample
-    y_ref_df = ref_sample_df[ref_sample_df['Chr'] == 'chr24']  # Y chromosome reads
-    x_ref_df = ref_sample_df[ref_sample_df['Chr'] == 'chr23']  # X chromosome reads
+    #! REFERENCE SAMPLE IS NOT USED IN THE CODE
+    # y_ref_df = ref_sample_df[ref_sample_df['Chr'] == 'chr24']  # Y chromosome reads
+    # x_ref_df = ref_sample_df[ref_sample_df['Chr'] == 'chr23']  # X chromosome reads
+    
+    y_ref_df = base_sample_df[base_sample_df['Chr'] == 'chr24']
+    x_ref_df = base_sample_df[base_sample_df['Chr'] == 'chr23']
     
     # Step 3: Apply SCA-specific transformations
     # Calculate GC content for quality control
