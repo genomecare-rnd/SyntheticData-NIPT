@@ -123,11 +123,6 @@ Generates synthetic Sex Chromosome Aneuploidy data implementing four SCA equatio
 - **XXY Y Chromosome Reads**: `Y_count = 0.000183 · TRC(UR) + 72.46617 · FF - 575.88`
   - **Standard deviation**: σ = 82 (>95% correlation with UR and FF)
 
-**Key Features:**
-- **Four SCA Types**: XO, XYY, XXY, XXX conditions
-- **Regression Integration**: Models misaligned Y chromosome reads
-- **Self-Contained**: No external Y reference file dependencies
-
 **Gender-Specific Sample Requirements:**
 - **XO (Turner) and XYY (Jacob's)**: Use **MALE** fetus samples only
 - **XXY (Klinefelter) and XXX (Triple X)**: Use **FEMALE** fetus samples only
