@@ -24,7 +24,7 @@ def extract_unique_reads(fastq_id, reference, threads=8, keep_temp=False):
     bam_sort = f"{bam}.sort.bam"
     bam_rmdup = f"{bam_sort}.rmdup.bam"
     sam_rmdup = f"{bam_rmdup}.sam"
-    unique_file = f"{fastq_id}.unique.Fastq"
+    unique_file = f"{fastq_id}.Fastq.mapped"
 
     cmds = [f"cat {fastq_file} | sed 's/\\(.\{{35\\}}\\).*/\\1/' > {fq_trim}", ## 1. Fastq 35nt trimming
             f"bowtie2 -p {threads} -x {reference} {fq_trim} -S {sam}", # 2. bowtie2 mapping
@@ -34,7 +34,7 @@ def extract_unique_reads(fastq_id, reference, threads=8, keep_temp=False):
             f"samtools index -@{threads} {bam_sort}",
             f"samtools rmdup -s {bam_sort} {bam_rmdup}", # 5. rmdup
             f"samtools view -@{threads} {bam_rmdup} > {sam_rmdup}",
-            f"cat {sam_rmdup} | grep -v 'XS:i' | awk '$5==42 {{print $0}}' | grep 'AS:i:0' > {unique_file}", # 6. unique filtering
+            f"cat {sam_rmdup} | grep -v 'XS:i' | awk '$5>=36 && $5<=42 {{print $0}}' > {unique_file}", # 6. unique filtering
             ]
 
 

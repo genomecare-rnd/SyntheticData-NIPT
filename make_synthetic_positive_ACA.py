@@ -214,7 +214,7 @@ if __name__ == "__main__":
             
             # Create unique FASTQ file path in the same directory as original file
             original_dir = os.path.dirname(original_file_path)
-            unique_fastq_path = os.path.join(original_dir, f"{filename}.unique.Fastq")
+            unique_fastq_path = os.path.join(original_dir, f"{filename}.Fastq.mapped")
             
             # Ensure unique-read FASTQ exists; if not, extract unique reads
             if not os.path.exists(unique_fastq_path):
