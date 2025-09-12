@@ -28,13 +28,13 @@ def extract_unique_reads(fastq_id, reference, threads=8, keep_temp=False):
 
     cmds = [f"cat {fastq_file} | sed 's/\\(.\{{35\\}}\\).*/\\1/' > {fq_trim}", ## 1. Fastq 35nt trimming
             f"bowtie2 -p {threads} -x {reference} {fq_trim} -S {sam}", # 2. bowtie2 mapping
-            f"wc -l {sam} > {fastq_id}.rawread", # 3. raw read count
+            f"wc -l {sam} > {fastq_id}.rawread", # 3. Raw read count
             f"samtools view -@{threads} -Sb {sam} > {bam}", # 4. SAM → BAM → sort → index
             f"samtools sort -@{threads} {bam} -o {bam_sort}",
             f"samtools index -@{threads} {bam_sort}",
             f"samtools rmdup -s {bam_sort} {bam_rmdup}", # 5. rmdup
             f"samtools view -@{threads} {bam_rmdup} > {sam_rmdup}",
-            f"cat {sam_rmdup} | grep -v 'XS:i' | awk '$5>=36 && $5<=42 {{print $0}}' > {unique_file}", # 6. unique filtering
+            f"cat {sam_rmdup} | grep -v 'XS:i' | awk '$5>=36 && $5<=42 {{print $0}}' > {unique_file}", # 6. Unique filtering: Range parameters 36–42 can be modified as needed
             ]
 
 
