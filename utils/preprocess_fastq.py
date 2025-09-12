@@ -8,13 +8,13 @@ def extract_unique_reads(fastq_id, reference, threads=8, keep_temp=False):
     Parameters
     ----------
     fastq_id : str
-        FASTQ 파일 prefix (예: SAMPLE 이면 SAMPLE.Fastq 입력 파일을 찾음)
+        FASTQ file prefix (ex. SAMPLE then SAMPLE.Fastq input file is found)
     reference : str
-        Bowtie2 index prefix (예: /BiO/NIPT_V3/NIPT_V3/ref_genomom/UCSC_hg19/index)
+        Bowtie2 index prefix (ex. /BiO/NIPT_V3/NIPT_V3/ref_genomom/UCSC_hg19/index)
     threads : int
-        Bowtie2 / samtools 멀티스레드 옵션
+        Bowtie2 / samtools multi-thread option
     keep_temp : bool
-        중간 생성 파일 유지 여부
+        Intermediate file preservation
     """
 
     fastq_file = f"{fastq_id}.Fastq"
