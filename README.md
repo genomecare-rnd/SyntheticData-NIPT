@@ -62,7 +62,7 @@ The preprocessing pipeline uses the `extract_unique_reads` function from `prepro
 3. **Alignment**: Trimmed reads aligned to hg19 reference using Bowtie2
 4. **SAM/BAM Processing**: Convert SAM to BAM, sort and index
 5. **Duplicate Removal**: Remove duplicates using `samtools rmdup -s`
-6. **Unique Read Filtering**: Extract uniquely mapped reads to `.unique.Fastq` files
+6. **Unique Read Filtering**: Extract uniquely mapped reads to `.Fastq.mapped` files
 7. **Quality Control**: Samples filtered for ≥2M unique reads, GC content 39.5-43%, FF ≥4%
 
 The pipeline automatically generates `.unique.Fastq` files in the same directory as input files if they don't exist.  
