@@ -3,7 +3,7 @@ SCA Logistic Regression Training Pipeline
 
 This module mirrors the ACA LR pipeline structure for SCA multiclass tasks:
 - Load SCA train/test backdata CSVs and align labels (M/F -> XY/XX)
-- Build features: GC (scaled x100), UR, snp_FF, chr23_count, chr24_count
+- Build features: GC (scaled x100), UR, FF, chr23_count, chr24_count
 - Standardize features using training statistics only
 - Train Logistic Regression (multiclass) with class_weight='balanced'
 - Evaluate with confusion matrix and macro metrics
@@ -47,10 +47,11 @@ def plot_cm(cm, labels, title="Confusion Matrix"):
 
 # Load train/test SCA backdata and harmonize labels/columns
 def load_data():
-    cols = ['result', 'GC', 'UR', 'snp_FF', 'chr23_count', 'chr24_count']
+    cols = ['result', 'GC', 'UR', 'FF', 'chr23_count', 'chr24_count']
 
-    train_df = pd.read_csv('/BiO_3/Paper_Data_Preparation/_SCA_All_Data/SCA_train_backdata.csv', usecols=cols)
-    test_df = pd.read_csv('/BiO_3/Paper_Data_Preparation/_SCA_All_Data/SCA_test_backdata.csv', usecols=cols)
+    # Load CSV datasets (insert your own dataset location here)
+    train_df = pd.read_csv('./SCA_train.csv', usecols=cols)
+    test_df = pd.read_csv('./SCA_test.csv', usecols=cols)
 
     # Align labels to XY/XX for normals
     train_df['result'] = train_df['result'].replace(['M', 'F'], ['XY', 'XX'])
@@ -65,7 +66,7 @@ def load_data():
 
 # Train and evaluate LR for SCA multiclass classification
 def train_model(train_df, test_df):
-    features = ['GC', 'UR', 'snp_FF', 'chr23_count', 'chr24_count']
+    features = ['GC', 'UR', 'FF', 'chr23_count', 'chr24_count']
     X_train = train_df[features]
     y_train = train_df['result']
     X_test = test_df[features]

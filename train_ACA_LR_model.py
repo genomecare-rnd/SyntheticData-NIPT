@@ -4,14 +4,14 @@ ACA Logistic Regression Training Pipeline
 This module implements the ACA LR pipeline described in paper_english.pdf:
 - Load ACA/normal datasets and merge male/female cohorts
 - Normalize chromosome read counts to 3M per sample (UR/ATRC based)
-- Build features: GC (scaled x100), snp_FF, chrN_count_3m
+- Build features: GC (scaled x100), FF, chrN_count_3m
 - Standardize features using training statistics only
 - Train Logistic Regression (class_weight='balanced', C=100)
 - Evaluate via ROC with Youden's J thresholding, show CM/metrics
 - Save per-chromosome model/scaler artifacts
 
 Inputs
-- CSVs with columns: sample_id, result, GC, snp_FF,
+- CSVs with columns: sample_id, result, GC, FF,
   T{13,18,21}_UR, T{13,18,21}_RC (ACA), ATRC, chr{13,18,21}_count (normal)
 
 Outputs
@@ -33,7 +33,7 @@ import matplotlib.pyplot as plt
 # Pipeline overview:
 # 1) Load ACA/normal datasets and merge male/female .
 # 2) Normalize chromosome read counts to 3M total per sample (using UR/ATRC).
-# 3) Build features: GC (scaled x100), snp_FF, chrN_count_3m.
+# 3) Build features: GC (scaled x100), FF, chrN_count_3m.
 # 4) Standardize features on training data only.
 # 5) Train Logistic Regression (class_weight='balanced', C=100).
 # 6) Evaluate with ROC; choose threshold via Youden's J; report CM and metrics.
@@ -92,30 +92,19 @@ def plot_cm(cm, ax, label="Confusion Matrix", title="Confusion Matrix", fontsize
 # Load CSVs, merge male/female, and rename columns to consistent schema
 def load_data():
     """Load CSVs, merge cohorts, and align column names."""
-    aca_cols = ['sample_id','result','GC','snp_FF','T13_UR','T18_UR','T21_UR','T13_RC','T18_RC','T21_RC']
-    normal_cols = ['sample_id','result','GC','snp_FF','ATRC','chr13_count','chr18_count','chr21_count']
+    aca_cols = ['sample_id','result','GC','FF','T13_UR','T18_UR','T21_UR','T13_RC','T18_RC','T21_RC']
+    normal_cols = ['sample_id','result','GC','FF','ATRC','chr13_count','chr18_count','chr21_count']
 
-    # Load CSV datasets
-    # ACA_male_train = pd.read_csv(r'./ACA_train_male.csv', usecols=ACA_load_cols)
-    # ACA_female_train = pd.read_csv(r'./ACA_train_female.csv', usecols=ACA_load_cols)
-    # normal_male_train = pd.read_csv(r'./normal_train_male.csv', usecols=normal_load_cols)
-    # normal_female_train = pd.read_csv(r'./normal_train_female.csv', usecols=normal_load_cols)
+    # Load CSV datasets (insert your own dataset location here)
+    ACA_male_train = pd.read_csv(r'./ACA_train_male.csv', usecols=ACA_load_cols)
+    ACA_female_train = pd.read_csv(r'./ACA_train_female.csv', usecols=ACA_load_cols)
+    normal_male_train = pd.read_csv(r'./normal_train_male.csv', usecols=normal_load_cols)
+    normal_female_train = pd.read_csv(r'./normal_train_female.csv', usecols=normal_load_cols)
 
-    # ACA_male_test = pd.read_csv(r'./ACA_test_male.csv', usecols=ACA_load_cols)
-    # ACA_female_test = pd.read_csv(r'./ACA_test_female.csv', usecols=ACA_load_cols)
-    # normal_male_test = pd.read_csv(r'./normal_test_male.csv', usecols=normal_load_cols)
-    # normal_female_test = pd.read_csv(r'./normal_test_female.csv', usecols=normal_load_cols)
-
-    aca_train_m = pd.read_csv(r'/BiO_3/Paper_Data_Preparation/_ACA_All_Data/ACA_train_male_250.csv', usecols=aca_cols)
-    aca_train_f = pd.read_csv(r'/BiO_3/Paper_Data_Preparation/_ACA_All_Data/ACA_train_female_250.csv', usecols=aca_cols)
-    normal_train_m = pd.read_csv(r'/BiO_3/Paper_Data_Preparation/_ACA_All_Data/normal_train_male_250.csv', usecols=normal_cols)
-    normal_train_f = pd.read_csv(r'/BiO_3/Paper_Data_Preparation/_ACA_All_Data/normal_train_female_250.csv', usecols=normal_cols)
-
-    aca_test_m = pd.read_csv(r'/BiO_3/Paper_Data_Preparation/_ACA_All_Data/ACA_test_male_100.csv', usecols=aca_cols)
-    aca_test_f = pd.read_csv(r'/BiO_3/Paper_Data_Preparation/_ACA_All_Data/ACA_test_female_100.csv', usecols=aca_cols)
-    normal_test_m = pd.read_csv(r'/BiO_3/Paper_Data_Preparation/_Triple_SNP_Normal_Data/male_normal.csv', usecols=normal_cols)
-    normal_test_f = pd.read_csv(r'/BiO_3/Paper_Data_Preparation/_Triple_SNP_Normal_Data/female_normal.csv', usecols=normal_cols)
-
+    ACA_male_test = pd.read_csv(r'./ACA_test_male.csv', usecols=ACA_load_cols)
+    ACA_female_test = pd.read_csv(r'./ACA_test_female.csv', usecols=ACA_load_cols)
+    normal_male_test = pd.read_csv(r'./normal_test_male.csv', usecols=normal_load_cols)
+    normal_female_test = pd.read_csv(r'./normal_test_female.csv', usecols=normal_load_cols)
 
     # Merge male/female cohorts
     aca_train = pd.concat([aca_train_m, aca_train_f], ignore_index=True)
@@ -163,7 +152,7 @@ def prep_train_data(aca_train, normal_train, chromosomes):
         pos_data = aca_train.copy()
         neg_data = normal_train.copy()
         
-        cols = ['sample_id', 'GC', 'snp_FF', 'result', f'chr{chr_num}_count_3m']
+        cols = ['sample_id', 'GC', 'FF', 'result', f'chr{chr_num}_count_3m']
         pos_data = pos_data[cols]
         neg_data = neg_data[cols]
         
@@ -184,7 +173,7 @@ def prep_test_data(aca_test, normal_test, chr_num):
     pos_data = aca_test.copy()
     neg_data = normal_test.copy()
     
-    cols = ['sample_id', 'GC', 'snp_FF', 'result', f'chr{chr_num}_count_3m']
+    cols = ['sample_id', 'GC', 'FF', 'result', f'chr{chr_num}_count_3m']
     pos_data = pos_data[cols]
     neg_data = neg_data[cols]
     
@@ -202,7 +191,7 @@ def prep_test_data(aca_test, normal_test, chr_num):
 def train_model(train_data, test_data, chr_num, upscaler=0):
     """Train and evaluate LR for a single chromosome, then persist artifacts."""
     # Split features and target
-    features = ['GC', 'snp_FF', f'chr{chr_num}_count_3m']
+    features = ['GC', 'FF', f'chr{chr_num}_count_3m']
     X_train = train_data[features]
     y_train = train_data['result']
     X_test = test_data[features]
