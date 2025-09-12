@@ -34,7 +34,7 @@ def extract_unique_reads(fastq_id, reference, threads=8, keep_temp=False):
             f"samtools index -@{threads} {bam_sort}",
             f"samtools rmdup -s {bam_sort} {bam_rmdup}", # 5. rmdup
             f"samtools view -@{threads} {bam_rmdup} > {sam_rmdup}",
-            f"cat {sam_rmdup} | grep -v 'XS:i' | awk '$5>=36 && $5<=42 {{print $0}}' > {unique_file}", # 6. Unique filtering: Range parameters 36–42 can be modified as needed
+            f"cat {sam_rmdup} | grep 'AS:i:0' | awk '$5>=36 && $5<=42 {{print $0}}' > {unique_file}", # 6. Unique filtering: Range parameters 36–42 can be modified as needed
             ]
 
 
