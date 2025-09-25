@@ -6,4 +6,5 @@ synthetic_positive_SCA
 UCSC_hg19
 *.joblib
 *.pdf
-*.unique.Fastq
+*.Fastq.mapped
+*_temp.py
