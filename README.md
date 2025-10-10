@@ -196,6 +196,9 @@ python train_SCA_LR_model.py
 - Joblib artifacts for models and scalers
 - Console confusion matrices and key metrics (ACA: ROC/Youden’s J-based; SCA: multiclass macro metrics)
 
-## Contact
+## License
+- This repository is licensed **for research purposes only**.
+- For detailed terms and conditions, please refer to the [LICENSE.md](./LICENSE.md) file.
 
+## Contact
 For questions or technical support regarding this implementation, please contact: **hch8357@naver.com**
